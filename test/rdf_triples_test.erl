@@ -56,6 +56,31 @@ to_docs3_test() ->
     ],
     ?assertEqual(Doc, rdf_triples:to_docs(triples3())).
 
+to_docs4_test() ->
+    Doc = [
+        #{
+            <<"@id">> => <<"http://example.com/#a">>,
+            <<"http://xmlns.com/foaf/0.1/name">> => [
+                <<"Jan">>
+            ],
+            <<"http://example.com/#foo">> => [
+                #{
+                    <<"@id">> => <<"http://example.com/#b">>
+                }
+            ]
+        },
+        #{
+            <<"@id">> => <<"http://example.com/#b">>,
+            <<"http://xmlns.com/foaf/0.1/name">> => [
+                <<"Piet">>
+            ]
+        }
+    ],
+    Res = lists:sort(fun idsort/2, rdf_triples:to_docs(triples4())),
+    ?assertEqual(Doc, Res).
+
+idsort(#{ <<"@id">> := A }, #{ <<"@id">> := B }) ->
+    A < B.
 
 
 triples1() ->
@@ -114,5 +139,24 @@ triples3() ->
             <<"@value">> => <<"Bar">>,
             <<"@lang">> => <<"nl">>,
             <<"@type">> => <<"http://example.com/#string">>
+        }
+    ].
+
+triples4() ->
+    [
+        #{
+            <<"subject">> => <<"http://example.com/#a">>,
+            <<"predicate">> => <<"http://xmlns.com/foaf/0.1/name">>,
+            <<"@value">> => <<"Jan">>
+        },
+        #{
+            <<"subject">> => <<"http://example.com/#a">>,
+            <<"predicate">> => <<"http://example.com/#foo">>,
+            <<"@id">> => <<"http://example.com/#b">>
+        },
+        #{
+            <<"subject">> => <<"http://example.com/#b">>,
+            <<"predicate">> => <<"http://xmlns.com/foaf/0.1/name">>,
+            <<"@value">> => <<"Piet">>
         }
     ].

@@ -78,8 +78,9 @@ expand_blanks_1(#{ <<"@id">> := <<"_:", _/binary>> = Uri }, Uris, Trace) ->
                     % Blank node is undefined
                     false
             end
-    end.
-
+    end;
+expand_blanks_1(#{ <<"@id">> := _Uri } = N, _Uris, _Trace) ->
+    {true, N}.
 
 %% @doc Collect all defined documents. Blank and non-blank nodes.
 collect(Triples) ->
