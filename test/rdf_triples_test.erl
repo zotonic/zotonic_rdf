@@ -67,7 +67,7 @@ compact_test() ->
             }
         ]
     },
-    {ok, Doc1} = rdf_triples:compact(Doc, zotonic_rdf:namespaces()),
+    Doc1 = rdf_triples:compact(Doc, zotonic_rdf:namespaces()),
     ?assertEqual(Compact, Doc1).
 
 

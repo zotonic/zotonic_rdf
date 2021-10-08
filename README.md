@@ -30,3 +30,123 @@ And, if the object is a uri:
     <<"@id">> => <<"...">>
 }.
 ```
+
+## Documents
+
+Triples can be combined into documents. A document is a map with predicates and values.
+
+To make documents from a list of triples call:
+
+```erlang
+zotonic_rdf:triples_to_docs(Triples).
+```
+
+This returns a list of documents, only documents with a non-blank `@id` are returned.
+Blank nodes are inlined in the documents.
+
+Example document:
+
+```erlang
+#{
+    <<"@id">> => <<"http://example.com/#a">>,
+    <<"http://xmlns.com/foaf/0.1/name">> => [
+        <<"Jan">>
+    ],
+    <<"http://example.com/#foo">> => [
+        <<"Baz">>,
+        #{
+            <<"@value">> => <<"123">>,
+            <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#string">>
+        },
+        #{
+            <<"@value">> => <<"123">>,
+            <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#integer">>
+        },
+        #{
+            <<"@value">> => <<"123">>,
+            <<"@type">> => <<"http://example.com/#sometype">>
+        },
+        #{
+            <<"http://example.com/#bar">> => [
+                #{
+                    <<"@value">> => <<"Bar">>,
+                    <<"@language">> => <<"nl">>,
+                    <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#string">>
+                }
+            ]
+        }
+    ]
+}
+```
+
+The documents have full uris for their types and predicates, also the predicate values are lists
+and some values like integers can still be represented as strings.
+The uris and values can be compacted using the `compact/1` or `compact/2` function:
+
+
+```erlang
+zotonic_rdf:compact(Document, zotonic_rdf:namespaces()).
+```
+
+or, using the default namespaces in `zotonic_rdf:namespaces()`:
+
+```erlang
+zotonic_rdf:compact(Document).
+```
+
+The example document above will then become:
+
+```erlang
+#{
+    <<"@id">> => <<"http://example.com/#a">>,
+    <<"foaf:name">> => <<"Jan">>,
+    <<"http://example.com/#foo">> => [
+        <<"Baz">>,
+        <<"123">>,
+        123,
+        #{
+            <<"@value">> => <<"123">>,
+            <<"@type">> => <<"http://example.com/#sometype">>
+        },
+        #{
+            <<"http://example.com/#bar">> => #{
+                <<"@value">> => <<"Bar">>,
+                <<"@language">> => <<"nl">>
+            }
+        }
+    ]
+}
+```
+
+## Namespaces
+
+The library defines a default list of namespaces for vocabularies.
+These are:
+
+<table>
+    <th>acl</th><td>http://www.w3.org/ns/auth/acl#</td>
+    <th>dbpedia</th><td>http://dbpedia.org/property/</td>
+    <th>dbpedia-owl</th><td>http://dbpedia.org/ontology/</td>
+    <th>dcterms</th><td>http://purl.org/dc/terms/</td>
+    <th>dctype</th><td>http://purl.org/dc/dcmitype/</td>
+    <th>foaf</th><td>http://xmlns.com/foaf/0.1/</td>
+    <th>geo</th><td>http://www.w3.org/2003/01/geo/wgs84_pos#</td>
+    <th>rdf</th><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+    <th>rdf-schema</th><td>http://www.w3.org/2000/01/rdf-schema#</td>
+    <th>schema</th><td>http://schema.org/</td>
+    <th>vcard</th><td>http://www.w3.org/2006/vcard/ns#</td>
+    <th>vocab</th><td>http://rdf.data-vocabulary.org/#</td>
+    <th>xsd</th><td>http://www.w3.org/2001/XMLSchema#</td>
+</table>
+
+Use the following functions to compact or expand a namespace:
+
+```erlang
+2> zotonic_rdf:ns_compact(<<"http://www.w3.org/2001/XMLSchema#string">>).
+<<"xsd:string">>
+3> zotonic_rdf:ns_expand(<<"xsd:string">>).                              
+<<"http://www.w3.org/2001/XMLSchema#string">>
+```
+
+Optionally a map of namespaces can be passed as a second argument, this
+defaults to `zotonic_rdf:namespaces()`.

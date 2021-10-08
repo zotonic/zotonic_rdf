@@ -44,6 +44,7 @@
 -export([
     blank_id/0,
     triples_to_docs/1,
+    compact/1,
     compact/2,
     namespaces/0,
     ns_expand/1,
@@ -77,8 +78,14 @@ triples_to_docs(Triples) ->
     rdf_triples:to_docs(Triples).
 
 
+%% @doc Compact a doc using the known namespaces and simplify values.
+-spec compact(Doc) -> Doc
+    when Doc :: zotonic_rdf:rdf_doc().
+compact(Doc) ->
+    rdf_triples:compact(Doc, namespaces()).
+
 %% @doc Compact a doc, add namespaces and simplify values.
--spec compact( Doc, Namespaces ) -> {ok, Doc}
+-spec compact( Doc, Namespaces ) -> Doc
     when Doc :: zotonic_rdf:rdf_doc(),
          Namespaces :: #{ binary() := binary() }.
 compact(Doc, Namespaces) ->

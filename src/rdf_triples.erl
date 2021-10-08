@@ -27,11 +27,11 @@
 
 
 %% @doc Compact a doc, add namespaces and simplify values.
--spec compact( Doc, Namespaces ) -> {ok, Doc}
+-spec compact( Doc, Namespaces ) -> Doc
     when Doc :: zotonic_rdf:rdf_doc(),
          Namespaces :: #{ binary() := binary() }.
 compact(Doc, Namespaces) ->
-    Doc1 = maps:fold(
+    maps:fold(
         fun
             (<<"@type">>, V, Acc) ->
                 Acc#{ <<"@type">> => ns_compact(V, Namespaces)};
@@ -41,16 +41,14 @@ compact(Doc, Namespaces) ->
                 Acc#{ K1 => V1 }
         end,
         #{},
-        Doc),
-    {ok, Doc1}.
+        Doc).
 
 compact_value([V], Ns) ->
     compact_value(V, Ns);
 compact_value(Vs, Ns) when is_list(Vs) ->
     [ compact_value(V, Ns) || V <- Vs ];
 compact_value(#{} = V, Ns) ->
-    {ok, V1} = compact(V, Ns),
-    compact_value_type(V1);
+    compact_value_type(compact(V, Ns));
 compact_value(V, _Ns) ->
     V.
 
