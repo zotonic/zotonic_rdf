@@ -16,7 +16,7 @@ We have the following two variations:
     <<"predicate">> => <<"http://....">>,
     <<"@value">> => <<"...">>,
     <<"@type">> => <<"http://....">>,
-    <<"@lang">> => <<"nl">>
+    <<"@language">> => <<"nl">>
 }.
 
 ```

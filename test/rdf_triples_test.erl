@@ -3,6 +3,74 @@
 -include_lib("eunit/include/eunit.hrl").
 
 
+ns_expand_test() ->
+    ?assertEqual(<<"http://www.w3.org/2001/XMLSchema#integer">>,
+        rdf_triples:ns_expand(<<"xsd:integer">>, zotonic_rdf:namespaces())).
+
+ns_compact_test() ->
+    ?assertEqual(<<"xsd:integer">>,
+        rdf_triples:ns_compact(<<"http://www.w3.org/2001/XMLSchema#integer">>, zotonic_rdf:namespaces())).
+
+
+compact_test() ->
+    Doc = #{
+        <<"@id">> => <<"http://example.com/#a">>,
+        <<"http://xmlns.com/foaf/0.1/name">> => [
+            <<"Jan">>
+        ],
+        <<"http://example.com/#foo">> => [
+            <<"Foo">>,
+            #{
+                <<"@value">> => <<"123">>,
+                <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#string">>
+            },
+            #{
+                <<"@value">> => <<"123">>,
+                <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#integer">>
+            },
+            #{
+                <<"@value">> => <<"123">>,
+                <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#boolean">>
+            },
+            #{
+                <<"@value">> => <<"123">>,
+                <<"@type">> => <<"http://example.com/#sometype">>
+            },
+            #{
+                <<"http://example.com/#bar">> => [
+                    #{
+                        <<"@value">> => <<"Bar">>,
+                        <<"@language">> => <<"nl">>,
+                        <<"@type">> => <<"http://www.w3.org/2001/XMLSchema#string">>
+                    }
+                ]
+            }
+        ]
+    },
+    Compact = #{
+        <<"@id">> => <<"http://example.com/#a">>,
+        <<"foaf:name">> => <<"Jan">>,
+        <<"http://example.com/#foo">> => [
+            <<"Foo">>,
+            <<"123">>,
+            123,
+            true,
+            #{
+                <<"@value">> => <<"123">>,
+                <<"@type">> => <<"http://example.com/#sometype">>
+            },
+            #{
+                <<"http://example.com/#bar">> => #{
+                    <<"@value">> => <<"Bar">>,
+                    <<"@language">> => <<"nl">>
+                }
+            }
+        ]
+    },
+    {ok, Doc1} = rdf_triples:compact(Doc, zotonic_rdf:namespaces()),
+    ?assertEqual(Compact, Doc1).
+
+
 to_docs1_test() ->
     Doc = [
         #{
@@ -46,7 +114,7 @@ to_docs3_test() ->
                     <<"http://example.com/#bar">> => [
                         #{
                             <<"@value">> => <<"Bar">>,
-                            <<"@lang">> => <<"nl">>,
+                            <<"@language">> => <<"nl">>,
                             <<"@type">> => <<"http://example.com/#string">>
                         }
                     ]
@@ -137,7 +205,7 @@ triples3() ->
             <<"subject">> => <<"_:n1">>,
             <<"predicate">> => <<"http://example.com/#bar">>,
             <<"@value">> => <<"Bar">>,
-            <<"@lang">> => <<"nl">>,
+            <<"@language">> => <<"nl">>,
             <<"@type">> => <<"http://example.com/#string">>
         }
     ].

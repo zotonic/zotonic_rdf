@@ -18,8 +18,106 @@
 -module(rdf_triples).
 
 -export([
-    to_docs/1
+    to_docs/1,
+    compact/2,
+    ns_expand/2,
+    ns_compact/2
 ]).
+
+
+
+%% @doc Compact a doc, add namespaces and simplify values.
+-spec compact( Doc, Namespaces ) -> {ok, Doc}
+    when Doc :: zotonic_rdf:rdf_doc(),
+         Namespaces :: #{ binary() := binary() }.
+compact(Doc, Namespaces) ->
+    Doc1 = maps:fold(
+        fun
+            (<<"@type">>, V, Acc) ->
+                Acc#{ <<"@type">> => ns_compact(V, Namespaces)};
+            (K, V, Acc) ->
+                K1 = ns_compact(K, Namespaces),
+                V1 = compact_value(V, Namespaces),
+                Acc#{ K1 => V1 }
+        end,
+        #{},
+        Doc),
+    {ok, Doc1}.
+
+compact_value([V], Ns) ->
+    compact_value(V, Ns);
+compact_value(Vs, Ns) when is_list(Vs) ->
+    [ compact_value(V, Ns) || V <- Vs ];
+compact_value(#{} = V, Ns) ->
+    {ok, V1} = compact(V, Ns),
+    compact_value_type(V1);
+compact_value(V, _Ns) ->
+    V.
+
+%% @doc Compact some basic types to their value in JSON.
+compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:integer">> } = N) ->
+    case maps:size(N) of
+        2 ->
+            z_convert:to_integer(V);
+        _ ->
+            N1 = maps:without([ <<"@type">> ], N),
+            N1#{ <<"@value">> => z_convert:to_integer(V) }
+    end;
+compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:string">> } = N) ->
+    case maps:size(N) of
+        2 ->
+            z_convert:to_binary(V);
+        _ ->
+            N1 = maps:without([ <<"@type">> ], N),
+            N1#{ <<"@value">> => z_convert:to_binary(V) }
+    end;
+compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:boolean">> } = N) ->
+    case maps:size(N) of
+        2 ->
+            z_convert:to_bool(V);
+        _ ->
+            N1 = maps:without([ <<"@type">> ], N),
+            N1#{ <<"value">> => z_convert:to_bool(V) }
+    end;
+compact_value_type(N) ->
+    N.
+
+
+%% @doc Expand a namespace in a predicate. For example, replaces:
+%% xsd:integer with http://www.w3.org/2001/XMLSchema#integer
+-spec ns_expand( Pred, Ns ) -> Pred
+    when Pred :: binary(),
+         Ns :: #{ binary() := binary() }.
+ns_expand(Pred, Ns) ->
+    case binary:split(Pred, <<":">>) of
+        [ N, Rest ] ->
+            case maps:find(N, Ns) of
+                {ok, Uri} -> <<Uri/binary, Rest/binary>>;
+                error -> Pred
+            end;
+        [_] ->
+            Pred
+    end.
+
+%% @doc Compact a namespace in a predicate. For example, replaces:
+%% http://www.w3.org/2001/XMLSchema#integer with xsd:integer
+-spec ns_compact( Pred, Ns ) -> Pred
+    when Pred :: binary(),
+         Ns :: #{ binary() := binary() }.
+ns_compact(Pred, Ns) ->
+    Next = maps:iterator(Ns),
+    ns_compact_1(Pred, maps:next(Next)).
+
+ns_compact_1(Pred, none) ->
+    Pred;
+ns_compact_1(Pred, {Ns, Uri, Next}) ->
+    case binary:longest_common_prefix([Uri, Pred]) =:= size(Uri) of
+        true ->
+            binary:replace(Pred, Uri, <<Ns/binary,$:>>);
+        false ->
+            ns_compact_1(Pred, maps:next(Next))
+    end.
+
 
 
 %% @doc Combine a list of triples into a collection of JSON-LD (alike) documents.
@@ -103,7 +201,7 @@ collect(Triples) ->
 v(#{ <<"@id">> := Url }) ->
     #{ <<"@id">> => Url };
 v(#{ <<"@value">> := Value} = V) ->
-    V1 = maps:with([ <<"@value">>, <<"@type">>, <<"@lang">> ], V),
+    V1 = maps:with([ <<"@value">>, <<"@type">>, <<"@language">> ], V),
     case maps:size(V1) of
         1 -> Value;
         _ -> V1
