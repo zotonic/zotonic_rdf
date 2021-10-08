@@ -124,19 +124,19 @@ The library defines a default list of namespaces for vocabularies.
 These are:
 
 <table>
-    <th>acl</th><td>http://www.w3.org/ns/auth/acl#</td>
-    <th>dbpedia</th><td>http://dbpedia.org/property/</td>
-    <th>dbpedia-owl</th><td>http://dbpedia.org/ontology/</td>
-    <th>dcterms</th><td>http://purl.org/dc/terms/</td>
-    <th>dctype</th><td>http://purl.org/dc/dcmitype/</td>
-    <th>foaf</th><td>http://xmlns.com/foaf/0.1/</td>
-    <th>geo</th><td>http://www.w3.org/2003/01/geo/wgs84_pos#</td>
-    <th>rdf</th><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
-    <th>rdf-schema</th><td>http://www.w3.org/2000/01/rdf-schema#</td>
-    <th>schema</th><td>http://schema.org/</td>
-    <th>vcard</th><td>http://www.w3.org/2006/vcard/ns#</td>
-    <th>vocab</th><td>http://rdf.data-vocabulary.org/#</td>
-    <th>xsd</th><td>http://www.w3.org/2001/XMLSchema#</td>
+    <tr><th>acl</th><td>http://www.w3.org/ns/auth/acl#</td></tr>
+    <tr><th>dbpedia</th><td>http://dbpedia.org/property/</td></tr>
+    <tr><th>dbpedia-owl</th><td>http://dbpedia.org/ontology/</td></tr>
+    <tr><th>dcterms</th><td>http://purl.org/dc/terms/</td></tr>
+    <tr><th>dctype</th><td>http://purl.org/dc/dcmitype/</td></tr>
+    <tr><th>foaf</th><td>http://xmlns.com/foaf/0.1/</td></tr>
+    <tr><th>geo</th><td>http://www.w3.org/2003/01/geo/wgs84_pos#</td></tr>
+    <tr><th>rdf</th><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td></tr>
+    <tr><th>rdf-schema</th><td>http://www.w3.org/2000/01/rdf-schema#</td></tr>
+    <tr><th>schema</th><td>http://schema.org/</td></tr>
+    <tr><th>vcard</th><td>http://www.w3.org/2006/vcard/ns#</td></tr>
+    <tr><th>vocab</th><td>http://rdf.data-vocabulary.org/#</td></tr>
+    <tr><th>xsd</th><td>http://www.w3.org/2001/XMLSchema#</td></tr>
 </table>
 
 Use the following functions to compact or expand a namespace:
