@@ -86,12 +86,24 @@ compact_value_type(N) ->
 -spec ns_expand( Pred, Ns ) -> Pred
     when Pred :: binary(),
          Ns :: #{ binary() := binary() }.
+ns_expand(<<"http:", _/binary>> = Pred, _Ns) -> Pred;
+ns_expand(<<"https:", _/binary>> = Pred, _Ns) -> Pred;
+ns_expand(<<"urn:", _/binary>> = Pred, _Ns) -> Pred;
+ns_expand(<<"_:", _/binary>> = Pred, _Ns) -> Pred;
 ns_expand(Pred, Ns) ->
     case binary:split(Pred, <<":">>) of
         [ N, Rest ] ->
             case maps:find(N, Ns) of
                 {ok, Uri} -> <<Uri/binary, Rest/binary>>;
-                error -> Pred
+                error ->
+                    logger:error(#{
+                        in => zotonic_rdf,
+                        what => ns_expand,
+                        result => error,
+                        reason => unknown_namespace,
+                        predicate => Pred
+                    }),
+                    Pred
             end;
         [_] ->
             Pred
