@@ -127,12 +127,13 @@ These are:
     <tr><th>acl</th><td>http://www.w3.org/ns/auth/acl#</td></tr>
     <tr><th>dbpedia</th><td>http://dbpedia.org/property/</td></tr>
     <tr><th>dbpedia-owl</th><td>http://dbpedia.org/ontology/</td></tr>
+    <tr><th>dc</th><td>http://purl.org/dc/elements/1.1/</td></tr>
     <tr><th>dcterms</th><td>http://purl.org/dc/terms/</td></tr>
     <tr><th>dctype</th><td>http://purl.org/dc/dcmitype/</td></tr>
     <tr><th>foaf</th><td>http://xmlns.com/foaf/0.1/</td></tr>
     <tr><th>geo</th><td>http://www.w3.org/2003/01/geo/wgs84_pos#</td></tr>
     <tr><th>rdf</th><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td></tr>
-    <tr><th>rdf-schema</th><td>http://www.w3.org/2000/01/rdf-schema#</td></tr>
+    <tr><th>rdfs</th><td>http://www.w3.org/2000/01/rdf-schema#</td></tr>
     <tr><th>schema</th><td>http://schema.org/</td></tr>
     <tr><th>vcard</th><td>http://www.w3.org/2006/vcard/ns#</td></tr>
     <tr><th>vocab</th><td>http://rdf.data-vocabulary.org/#</td></tr>

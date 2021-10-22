@@ -9,6 +9,7 @@
 -define(NS_ACL, <<"http://www.w3.org/ns/auth/acl#">>).
 -define(NS_SCHEMA_ORG, <<"http://schema.org/">>).
 -define(NS_FOAF, <<"http://xmlns.com/foaf/0.1/">>).
+-define(NS_DC, <<"http://purl.org/dc/elements/1.1/">>).
 -define(NS_DCTERMS, <<"http://purl.org/dc/terms/">>).
 -define(NS_DCTYPE, <<"http://purl.org/dc/dcmitype/">>).
 -define(NS_DBPEDIA_OWL, <<"http://dbpedia.org/ontology/">>).

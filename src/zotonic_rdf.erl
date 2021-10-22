@@ -97,9 +97,10 @@ compact(Doc, Namespaces) ->
 namespaces() ->
     #{
         <<"rdf">> => ?NS_RDF,
-        <<"rdf-schema">> => ?NS_RDF_SCHEMA,
+        <<"rdfs">> => ?NS_RDF_SCHEMA,
         <<"foaf">> => ?NS_FOAF,
         <<"geo">> => ?NS_GEO,
+        <<"dc">> => ?NS_DC,
         <<"dcterms">> => ?NS_DCTERMS,
         <<"dctype">> => ?NS_DCTYPE,
         <<"vcard">> => ?NS_VCARD,
