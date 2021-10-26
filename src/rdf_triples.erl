@@ -84,7 +84,9 @@ compact_value_type(#{ <<"@value">> := V } = N) ->
             z_convert:to_binary(V);
         _ ->
             N#{ <<"@value">> => z_convert:to_binary(V) }
-    end.
+    end;
+compact_value_type(N) ->
+    N.
 
 
 %% @doc Expand a namespace in a predicate. For example, replaces:
