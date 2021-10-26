@@ -61,6 +61,22 @@ compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:integer">> } = N)
             N1 = maps:without([ <<"@type">> ], N),
             N1#{ <<"@value">> => z_convert:to_integer(V) }
     end;
+compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:float">> } = N) ->
+    case maps:size(N) of
+        2 ->
+            z_convert:to_float(V);
+        _ ->
+            N1 = maps:without([ <<"@type">> ], N),
+            N1#{ <<"@value">> => z_convert:to_float(V) }
+    end;
+compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:double">> } = N) ->
+    case maps:size(N) of
+        2 ->
+            z_convert:to_float(V);
+        _ ->
+            N1 = maps:without([ <<"@type">> ], N),
+            N1#{ <<"@value">> => z_convert:to_float(V) }
+    end;
 compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:string">> } = N) ->
     case maps:size(N) of
         2 ->
