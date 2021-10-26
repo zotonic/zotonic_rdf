@@ -77,8 +77,14 @@ compact_value_type(#{ <<"@value">> := V, <<"@type">> := <<"xsd:boolean">> } = N)
             N1 = maps:without([ <<"@type">> ], N),
             N1#{ <<"value">> => z_convert:to_bool(V) }
     end;
-compact_value_type(N) ->
-    N.
+compact_value_type(#{ <<"@value">> := V } = N) ->
+    % Defaults to xsd:string
+    case maps:size(N) of
+        1 ->
+            z_convert:to_binary(V);
+        _ ->
+            N#{ <<"@value">> => z_convert:to_binary(V) }
+    end.
 
 
 %% @doc Expand a namespace in a predicate. For example, replaces:
@@ -167,8 +173,6 @@ expand_blank_node(Doc, Uris, Trace) ->
         #{},
         Doc).
 
-expand_blanks_1(V, _Uris, _Trace) when is_binary(V) ->
-    {true, V};
 expand_blanks_1(#{ <<"@value">> := _ } = N, _Uris, _Trace) ->
     {true, N};
 expand_blanks_1(#{ <<"@id">> := <<"_:", _/binary>> = Uri }, Uris, Trace) ->
@@ -188,7 +192,9 @@ expand_blanks_1(#{ <<"@id">> := <<"_:", _/binary>> = Uri }, Uris, Trace) ->
             end
     end;
 expand_blanks_1(#{ <<"@id">> := _Uri } = N, _Uris, _Trace) ->
-    {true, N}.
+    {true, N};
+expand_blanks_1(V, _Uris, _Trace) ->
+    {true, V}.
 
 %% @doc Collect all defined documents. Blank and non-blank nodes.
 collect(Triples) ->
