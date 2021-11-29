@@ -4,7 +4,7 @@
 %%
 %% One is for a value:
 %%
-%% <pre>
+%% ```
 %% #{
 %%     <<"subject">> => <<"_:n1">>,
 %%     <<"predicate">> => <<"http://....">>,
@@ -12,18 +12,17 @@
 %%     <<"@type">> => <<"http://....">>,
 %%     <<"@language">> => <<"nl">>
 %% }.
-%% </pre>
+%% '''
 %%
 %% And, if the object is a uri:
 %%
-%% <pre>
+%% ```
 %% #{
 %%     <<"subject">> => <<"_:n1">>,
 %%     <<"predicate">> => <<"http://....">>,
 %%     <<"@id">> => <<"...">>
 %% }.
-%% </pre>
-
+%% '''
 
 %% Copyright 2021 Driebit BV
 %%
