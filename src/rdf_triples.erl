@@ -37,8 +37,14 @@ compact(Doc, Namespaces) ->
                 Acc#{ <<"@type">> => ns_compact(V, Namespaces)};
             (K, V, Acc) ->
                 K1 = ns_compact(K, Namespaces),
-                V1 = compact_value(V, Namespaces),
-                Acc#{ K1 => V1 }
+                try
+                    V1 = compact_value(V, Namespaces),
+                    Acc#{ K1 => V1 }
+                catch
+                    _:_ ->
+                        Uri = maps:get(<<"@id">>, Doc, undefined),
+                        erlang:throw({illegal_triple_value, {Uri, K, V}})
+                end
         end,
         #{},
         Doc).
