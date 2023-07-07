@@ -81,7 +81,7 @@ Example document:
 
 The documents have full uris for their types and predicates, also the predicate values are lists
 and some values like integers can still be represented as strings.
-The uris and values can be compacted using the `compact/1` or `compact/2` function:
+The uris and values can be compacted using the `zotonic_rdf:compact/1` or `zotonic_rdf:compact/2` function:
 
 
 ```erlang
