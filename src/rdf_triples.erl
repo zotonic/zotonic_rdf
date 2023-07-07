@@ -169,9 +169,9 @@ ns_normalize(Pred) -> Pred.
 %% @doc Combine a list of triples into a collection of JSON-LD (alike) documents.
 %% Only non blank-node dcuments are returned. Blank nodes are substituted into the
 %% documents.
--spec to_docs( Triples ) -> {ok, Docs}
+-spec to_docs( Triples ) -> Docs
     when Triples :: [ zotonic_rdf:rdf_triple() ],
-         Docs :: #{ zotonic_rdf:uri() := zotonic_rdf:rdf_doc() }.
+         Docs :: [ zotonic_rdf:rdf_doc()  ].
 to_docs(Triples) ->
     Uris = collect(Triples),
     maps:fold(

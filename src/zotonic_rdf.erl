@@ -70,9 +70,9 @@ blank_id() ->
 %% @doc Combine triples to one or more documents. Every document
 %% with a non-blank id is returned separately. The documents are mapped
 %% using <code>uri => rdf_doc</code>
--spec triples_to_docs( Triples ) -> {ok, Docs}
-    when Triples :: [ rdf_triple() ],
-         Docs :: #{ uri() := rdf_doc() }.
+-spec triples_to_docs( Triples ) -> Docs
+    when Triples :: [ zotonic_rdf:rdf_triple() ],
+         Docs :: [ zotonic_rdf:rdf_doc() ].
 triples_to_docs(Triples) ->
     rdf_triples:to_docs(Triples).
 
