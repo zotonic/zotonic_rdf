@@ -134,7 +134,7 @@ These are:
     <tr><th>geo</th><td>http://www.w3.org/2003/01/geo/wgs84_pos#</td></tr>
     <tr><th>rdf</th><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td></tr>
     <tr><th>rdfs</th><td>http://www.w3.org/2000/01/rdf-schema#</td></tr>
-    <tr><th>schema</th><td>http://schema.org/</td></tr>
+    <tr><th>schema</th><td>https://schema.org/</td></tr>
     <tr><th>vcard</th><td>http://www.w3.org/2006/vcard/ns#</td></tr>
     <tr><th>vocab</th><td>http://rdf.data-vocabulary.org/#</td></tr>
     <tr><th>xsd</th><td>http://www.w3.org/2001/XMLSchema#</td></tr>

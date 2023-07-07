@@ -7,7 +7,7 @@
 -define(NS_GEO, <<"http://www.w3.org/2003/01/geo/wgs84_pos#">>).
 -define(NS_VCARD, <<"http://www.w3.org/2006/vcard/ns#">>).
 -define(NS_ACL, <<"http://www.w3.org/ns/auth/acl#">>).
--define(NS_SCHEMA_ORG, <<"http://schema.org/">>).
+-define(NS_SCHEMA_ORG, <<"https://schema.org/">>).
 -define(NS_FOAF, <<"http://xmlns.com/foaf/0.1/">>).
 -define(NS_DC, <<"http://purl.org/dc/elements/1.1/">>).
 -define(NS_DCTERMS, <<"http://purl.org/dc/terms/">>).
