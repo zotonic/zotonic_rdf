@@ -2,7 +2,7 @@
     {description, "RDF triples handling - map triples to resources - RDF support routines."},
     {vsn, "git"},
     {registered, []},
-    {applications, [kernel, stdlib, logger]},
+    {applications, [kernel, stdlib]},
     {env, []},
     {modules, []},
     {doc, "doc"},
