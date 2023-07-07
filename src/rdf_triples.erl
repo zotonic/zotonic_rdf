@@ -146,7 +146,7 @@ ns_expand(Pred, Ns) ->
          Ns :: #{ binary() := binary() }.
 ns_compact(Pred, Ns) ->
     Next = maps:iterator(Ns),
-    ns_compact_1(Pred, maps:next(Next)).
+    ns_compact_1(ns_normalize(Pred), maps:next(Next)).
 
 ns_compact_1(Pred, none) ->
     Pred;
@@ -158,6 +158,12 @@ ns_compact_1(Pred, {Ns, Uri, Next}) ->
             ns_compact_1(Pred, maps:next(Next))
     end.
 
+%% @doc Normalize namespaces that are known to have been renamed.
+-spec ns_normalize(Pred) -> NewPred
+    when Pred :: binary(),
+         NewPred ::binary().
+ns_normalize(<<"http://schema.org/", P/binary>>) -> <<"https://schema.org", P/binary>>;
+ns_normalize(Pred) -> Pred.
 
 
 %% @doc Combine a list of triples into a collection of JSON-LD (alike) documents.
