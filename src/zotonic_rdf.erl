@@ -95,6 +95,7 @@ compact(Doc, Namespaces) ->
 -spec namespaces() -> #{ binary() := binary() }.
 namespaces() ->
     #{
+        ?PREFIX_ZOTONIC => ?NS_ZOTONIC,
         <<"rdf">> => ?NS_RDF,
         <<"rdfs">> => ?NS_RDF_SCHEMA,
         <<"foaf">> => ?NS_FOAF,

@@ -151,3 +151,22 @@ Use the following functions to compact or expand a namespace:
 
 Optionally a map of namespaces can be passed as a second argument, this
 defaults to `zotonic_rdf:namespaces()`.
+
+## Serialization documents and standard Zotonic namespace
+
+The standard prefix map includes `zotonic` for `http://zotonic.net/predicate/`.
+`zotonic_rdf.hrl` exports `PREFIX_ZOTONIC`, binary `NS_ZOTONIC`, and string
+`NAMESPACE_ZOTONIC` (usable in binary pattern segments). Consumers should use
+these definitions instead of maintaining local copies.
+
+`rdf_document:from_triples/1` groups expanded triples into document maps without
+inlining or discarding blank nodes. `rdf_document:to_triples/1` converts expanded
+JSON-LD documents to triples, including RDF collections and reverse properties.
+`rdf_document:compact/1` applies the standard namespaces while retaining explicit
+literal datatypes and lexical values. These helpers serve the `zotonic_jsonld`
+and `zotonic_turtle` serialization applications; the legacy document helpers keep
+their existing behavior. JSON-LD directional/JSON literals are currently rejected
+by triple conversion, and named graphs are not accepted by `from_triples/1`.
+
+`rdf_iri:resolve/2` resolves Unicode IRIs using RFC 3986 URI resolution, preserving
+existing percent escapes. `rdf_iri:is_absolute/1` validates absolute RDF IRIs.
