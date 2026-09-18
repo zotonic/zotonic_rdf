@@ -162,7 +162,7 @@ ns_compact_1(Pred, {Ns, Uri, Next}) ->
 -spec ns_normalize(Pred) -> NewPred
     when Pred :: binary(),
          NewPred ::binary().
-ns_normalize(<<"http://schema.org/", P/binary>>) -> <<"https://schema.org", P/binary>>;
+ns_normalize(<<"http://schema.org/", P/binary>>) -> <<"https://schema.org/", P/binary>>;
 ns_normalize(Pred) -> Pred.
 
 

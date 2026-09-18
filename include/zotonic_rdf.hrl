@@ -15,3 +15,8 @@
 -define(NS_DBPEDIA_OWL, <<"http://dbpedia.org/ontology/">>).
 -define(NS_DBPEDIA, <<"http://dbpedia.org/property/">>).
 -define(NS_VOCAB, <<"http://rdf.data-vocabulary.org/#">>).
+
+%% Zotonic vocabulary. The string form also supports binary pattern matching.
+-define(PREFIX_ZOTONIC, <<"zotonic">>).
+-define(NAMESPACE_ZOTONIC, "http://zotonic.net/predicate/").
+-define(NS_ZOTONIC, <<?NAMESPACE_ZOTONIC>>).
